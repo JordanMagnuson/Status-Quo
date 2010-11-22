@@ -9,13 +9,14 @@ package
 		
 		public var center:Point = new Point(FP.halfWidth, FP.halfHeight);
 		public var radius:Number;
-		public var speed:Number = LightTail.speed * Math.PI;
+		public var speed:Number;
 		
 		public var motionTween:CircularMotion = new CircularMotion(continueOrbit);
 		
-		public function Orbiter(x:Number, y:Number) 
+		public function Orbiter(x:Number, y:Number, speed:Number) 
 		{
 			super(x, y);
+			this.speed = speed;
 		}
 		
 		override public function added():void

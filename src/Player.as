@@ -120,13 +120,13 @@ package
 			// Reverse gravity depending on LightTail.
 			if (inDarkness())
 			{
-				if (g > 0)
+				if (g < 0)
 				{
 					speed = 0;
 					g *= -1;
 				}
 			}
-			else if (g < 0)
+			else if (g > 0)
 			{
 				speed = 0;
 				g *= -1;
@@ -148,13 +148,13 @@ package
 			// Reverse gravity depending on LightTail.
 			if (inDarkness())
 			{
-				if (accel < 0)
+				if (accel > 0)
 				{
 					//speed = 0;
 					accel *= -1;
 				}
 			}
-			else if (accel > 0)
+			else if (accel < 0)
 			{
 				//speed = 0;
 				accel *= -1;
