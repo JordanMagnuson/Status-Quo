@@ -10,7 +10,7 @@ package
 	 */
 	public class LightTail extends Entity
 	{
-		public static var speed:Number = 10;
+		public static var speed:Number = 30;
 		public static var angle:Number = 0;
 		
 		// Player graphic
@@ -41,8 +41,8 @@ package
 			angle = angle % 360;
 			if (Math.floor(angle) % 360 == 0)
 			{
-				trace('yep');
-				speed += 10
+				//trace('yep');
+				//speed += 10
 			}
 			//trace(angle);
 			angle += FP.elapsed * speed;

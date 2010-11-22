@@ -23,7 +23,7 @@ package
 		 * Movement properties.
 		 */
 		public var g:Number = GRAV;
-		public var speed:Number = 0;		
+		public var speed:Number = 50;		
 		
 		/**
 		 * Other properties.
@@ -42,7 +42,7 @@ package
 			layer = 0;
 			
 			// Initial position
-			this.x = FP.screen.width / 2 + SafeZone.outerRadius - (SafeZone.outerRadius - SafeZone.innerRadius) / 2
+			this.x = FP.screen.width / 2;
 			this.y = FP.screen.height / 2 + SafeZone.outerRadius - (SafeZone.outerRadius - SafeZone.innerRadius) / 2;			
 			
 			// Initialize image, hitbox
@@ -61,9 +61,28 @@ package
 		override public function update():void 
 		{
 			changeColor();
+			//movement();
 			gravity();
 			acceleration();
-			move(speed * FP.elapsed, pointDirection(x, y, FP.screen.width / 2, FP.screen.height / 2));
+			move(speed * FP.elapsed, pointDirection(x, y, FP.screen.width / 2, FP.screen.height / 2));	
+		}
+		
+		public function movement():void
+		{
+			if (inDarkness())
+			{
+				if (Input.check("RESIST"))
+					move(speed * FP.elapsed, pointDirection(FP.screen.width / 2, FP.screen.height / 2, x, y));
+				else
+					move(speed * FP.elapsed, pointDirection(x, y, FP.screen.width / 2, FP.screen.height / 2));		
+			}
+			else 
+			{
+				if (Input.check("RESIST"))
+					move(speed * FP.elapsed, pointDirection(x, y, FP.screen.width / 2, FP.screen.height / 2));
+				else
+					move(speed * FP.elapsed, pointDirection(FP.screen.width / 2, FP.screen.height / 2, x, y));				
+			}
 		}
 		
 		public function changeColor():void

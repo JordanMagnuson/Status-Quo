@@ -17,6 +17,7 @@ package
 			add(new SafeZone);
 			add(new LightTail);
 			add(new Player);
+			add(new EnemyController);
 		}
 		
 	}
