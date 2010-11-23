@@ -3,6 +3,8 @@ package
 	import net.flashpunk.Entity;
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.FP;
+	import net.flashpunk.Sfx;
+	import net.flashpunk.tweens.misc.Alarm;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
 	
@@ -13,27 +15,33 @@ package
 	public class Player extends PolarMover
 	{
 		/**
-		 * Movement constants.
+		 * Constants.
 		 */
-		public const MAX_SPEED:Number = 150;
+		public const MAX_SPEED:Number = 80;
 		public const GRAV:Number = 100;
 		public const ACCEL:Number = 200;
+		public const STUN_TIME:Number = 0.5;	// Seconds player can't move after being hit by enemy.
+		public const STUN_COLOR:uint = Colors.RED;
+		public const ENEMY_MOVE_DIST:Number = 20;	// Distance player moves when hits enemy.
 		
 		/**
 		 * Movement properties.
 		 */
-		public var g:Number = GRAV;
-		public var speed:Number = 50;		
+		public var g:Number = 0;
+		public var speed:Number = 0;		
 		
 		/**
-		 * Other properties.
+		 * Other properties.                  
 		 */
 		public static var color:uint = Colors.WHITE;	// Color changes from white to black depending on where player is in LightTail.		
+		public static var stunAlarm:Alarm;
+		public static var canMove:Boolean = true;	// Whether the player input makes a difference.
+		public static var frozen:Boolean = false; 	// Whether the player is totally frozen (no grav, etc.)
 		
 		/**
 		 * Image.
 		 */
-		public var image:Image = Image.createCircle(8, Colors.WHITE);			
+		public var image:Image = Image.createCircle(8, Colors.WHITE);	
 		
 		public function Player(x:Number = 0, y:Number = 0) 
 		{
@@ -44,6 +52,10 @@ package
 			// Initial position
 			this.x = FP.screen.width / 2;
 			this.y = FP.screen.height / 2 + SafeZone.outerRadius - (SafeZone.outerRadius - SafeZone.innerRadius) / 2;			
+			
+			// Stun alarm
+			stunAlarm = new Alarm(STUN_TIME, restoreMovement);
+			addTween(stunAlarm);
 			
 			// Initialize image, hitbox
 			image.originX = image.width / 2;
@@ -60,13 +72,22 @@ package
 		
 		override public function update():void 
 		{
-			changeColor();
+			updateColor();
 			//movement();
-			gravity();
-			acceleration();
-			move(speed * FP.elapsed, pointDirection(x, y, FP.screen.width / 2, FP.screen.height / 2));	
+			if (!frozen)
+			{
+				gravity();
+				if (canMove) 
+					acceleration();
+				move(speed * FP.elapsed, pointDirection(x, y, FP.screen.width / 2, FP.screen.height / 2));	
+				checkCollisions();
+				checkSafeZone();
+			}
 		}
 		
+		/**
+		 * Alternative movement with no acceleration... NOT BEING USED
+		 */
 		public function movement():void
 		{
 			if (inDarkness())
@@ -85,9 +106,62 @@ package
 			}
 		}
 		
-		public function changeColor():void
+		public function checkCollisions():void
 		{
-			if (inDarkness())
+			// Collusion with enemy
+			if (collide('enemy', x, y))
+			{
+				if (inDarkness())
+					y -= ENEMY_MOVE_DIST;
+				else
+					y += ENEMY_MOVE_DIST;
+				//canMove = false;
+				//stunAlarm.reset(STUN_TIME);
+			}			
+		}
+		
+		public function checkSafeZone():void
+		{
+			if (distanceToPoint(FP.halfWidth, FP.halfHeight) < SafeZone.innerRadius && canMove)
+			{
+				SoundController.music.stop();
+				SoundController.soundGlitch.play();
+				canMove = false;
+			}
+			else if (distanceToPoint(FP.halfWidth, FP.halfHeight) > SafeZone.outerRadius)
+			{
+				if (!China.shootingLazer)
+				{
+					China.shootLazer();
+					//FP.world.remove(this);
+					frozen = true;
+				}
+				canMove = false;
+			}			
+		}
+		
+		public function restoreMovement():void
+		{
+			canMove = true;
+		}
+		
+		public function updateColor():void
+		{
+			//if (!canMove)
+			//{
+				//if (image.color != STUN_COLOR)
+				//{
+					//image.color = STUN_COLOR;
+				//}
+			//}
+			if (distanceToPoint(FP.halfWidth, FP.halfHeight) > SafeZone.outerRadius)
+			{
+				if (image.color != Colors.WHITE)
+				{
+					image.color = Colors.WHITE;
+				}				
+			}
+			else if (inDarkness())
 			{
 				if (image.color != Colors.WHITE)
 				{
@@ -98,6 +172,7 @@ package
 			{
 				image.color = Colors.BLACK;
 			}
+			graphic = image;
 		}
 		
 		/**
@@ -106,7 +181,11 @@ package
 		 */
 		public function inDarkness():Boolean
 		{
-			if (LightTail.angle < 180)
+			if (distanceToPoint(FP.halfWidth, FP.halfHeight) < SafeZone.innerRadius)
+				return true;
+			else if (distanceToPoint(FP.halfWidth, FP.halfHeight) > SafeZone.outerRadius)
+				return false;
+			else if (LightTail.angle < 180)
 				return true;
 			else
 				return false;
@@ -117,6 +196,11 @@ package
 		 */
 		private function gravity():void
 		{
+			if (Math.abs(g) < GRAV)
+			{
+				if (g < 0) g -= 0.2;
+				else g += 0.2;
+			}
 			// Reverse gravity depending on LightTail.
 			if (inDarkness())
 			{
@@ -143,7 +227,8 @@ package
 		{
 			// evaluate input
 			var accel:Number = 0;
-			if (Input.check("RESIST")) accel += ACCEL;
+			if (Input.check("RESIST") || Input.mouseDown) 
+				accel += ACCEL;
 			
 			// Reverse gravity depending on LightTail.
 			if (inDarkness())

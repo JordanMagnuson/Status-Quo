@@ -33,11 +33,11 @@ package
 			graphic = image;
 			
 			// Initialize image, hitbox
-			image.originX = image.width / 2;
-			image.originY = image.height / 2;
-			image.x = -image.originX;
-			image.y = -image.originY;		
-			setHitbox(image.width, image.height, image.originX, image.originY);				
+			image.originX = image.width / 2 - 1;
+			image.originY = image.height / 2 - 1;
+			image.x = -image.originX - 1;
+			image.y = -image.originY - 1;		
+			setHitbox(image.width - 2, image.height - 2, image.originX, image.originY);				
 		}
 		
 		override public function update():void
@@ -61,6 +61,17 @@ package
 			lastAngle = currentAngle;			
 		}
 		
+		/**
+		 * Updates the speed of this enemy so that it will rotate at the same rate as light tail
+		 */
+		public function speedMatchLightTail():void
+		{
+			speed = (LightTail.speed * Math.PI / 180) * radius;
+			
+			// Have to update the motion tween, which is actually governing the movement
+			motionTween.setMotionSpeed(center.x, center.y, radius, getAngle(), false, speed);
+		}
+		
 		public function fadeOut():void
 		{
 			FP.world.remove(this);
@@ -72,7 +83,10 @@ package
 		 */
 		public function inDarkness():Boolean
 		{
-			if (LightTail.angle < 180)
+			var angle:Number = pointDirection(center.x, center.y, x, y);
+			if (angle < 0)
+				angle += 360;			
+			if ((LightTail.angle - angle) > 90 && (LightTail.angle - angle) < 270)
 				return true;
 			else
 				return false;

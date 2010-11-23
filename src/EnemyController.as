@@ -9,6 +9,9 @@ package
 	 */
 	public class EnemyController extends Entity
 	{
+		public static const MIN_RLEASE_RATE:Number = 0.5;
+		public static const RELEASE_RATE_CHANGE:Number = 0.02
+		
 		public static var releaseRate:Number = 2;
 		public static var releaseAngle:Number = 0;
 		public static var enemyAlarm:Alarm;
@@ -22,7 +25,9 @@ package
 		public function releaseEnemy():void
 		{
 			// Reset the alarm
+			releaseRate = Math.max(releaseRate - RELEASE_RATE_CHANGE, MIN_RLEASE_RATE);
 			enemyAlarm.reset(releaseRate);
+			//trace('release rate: ' + releaseRate);
 			
 			// Choose a radius to release at, between safe zone outer radius and inner radius
 			var r:Number = SafeZone.innerRadius + FP.random * (SafeZone.outerRadius - SafeZone.innerRadius);

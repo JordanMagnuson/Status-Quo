@@ -9,7 +9,7 @@ package
 		{
 			// Initiate the game with a 800x600 screen.
 			super(800, 600, 60, false);
-			//FP.screen.color = Colors.BLACK;
+			FP.screen.color = Colors.BLACK;
 			
 			// Debug console
 			FP.console.enable();

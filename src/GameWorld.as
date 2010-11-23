@@ -1,5 +1,6 @@
 package  
 {
+	import net.flashpunk.tweens.misc.Alarm;
 	import net.flashpunk.World;
 	import net.flashpunk.FP;
 	
@@ -9,15 +10,18 @@ package
 	 */
 	public class GameWorld extends World
 	{
+		public static var player:Player;
+		public static var china:China;
 		
 		public function GameWorld() 
 		{
 			trace('game world go!');
-			add(new China);
+			add(china = new China);
 			add(new SafeZone);
 			add(new LightTail);
-			add(new Player);
+			add(player = new Player);
 			add(new EnemyController);
+			add(new SoundController);
 		}
 		
 	}
