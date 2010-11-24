@@ -10,14 +10,16 @@ package
 	public class EnemyController extends Entity
 	{
 		public static const MIN_RLEASE_RATE:Number = 0.5;
+		public static const MAX_RELEASE_RATE:Number = 2;
 		public static const RELEASE_RATE_CHANGE:Number = 0.02
 		
-		public static var releaseRate:Number = 2;
+		public static var releaseRate:Number = MAX_RELEASE_RATE;
 		public static var releaseAngle:Number = 0;
 		public static var enemyAlarm:Alarm;
 		
 		public function EnemyController() 
 		{
+			releaseRate = MAX_RELEASE_RATE;
 			enemyAlarm = new Alarm(releaseRate, releaseEnemy);
 			addTween(enemyAlarm, true);
 		}

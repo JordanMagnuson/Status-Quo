@@ -18,5 +18,4 @@ package
 			FP.world = new GameWorld;
 		}
 	}
-	
 }

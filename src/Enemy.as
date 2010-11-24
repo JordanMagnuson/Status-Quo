@@ -3,6 +3,7 @@ package
 	import net.flashpunk.Entity;
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.FP;
+	import net.flashpunk.tweens.misc.ColorTween;
 	
 	/**
 	 * ...
@@ -10,6 +11,10 @@ package
 	 */
 	public class Enemy extends Orbiter
 	{
+		public static const FADE_IN_DURATION:Number = 2;
+		public static const FADE_OUT_DURATION:Number = 2;	
+		public var fadeTween:ColorTween;
+		
 		public var image:Image;
 		
 		// The last angle this enemy was at, relative to its rotation center;
@@ -30,6 +35,7 @@ package
 				image = Image.createRect(8, 8, Colors.WHITE);
 			else
 				image = Image.createRect(8, 8, Colors.BLACK);
+			image.alpha = 0;
 			graphic = image;
 			
 			// Initialize image, hitbox
@@ -40,13 +46,20 @@ package
 			setHitbox(image.width - 2, image.height - 2, image.originX, image.originY);				
 		}
 		
+		override public function added():void
+		{
+			super.added();
+			fadeIn();
+		}		
+		
 		override public function update():void
 		{
-			updateRotations();
-			if (rotations > 0)
-				fadeOut();
-			
 			super.update();
+			(graphic as Image).alpha = fadeTween.alpha;
+			updateRotations();
+			if (lastAngle > 300)
+				fadeOut();
+			trace(fadeTween.complete);
 		}
 		
 		public function updateRotations():void
@@ -72,9 +85,23 @@ package
 			motionTween.setMotionSpeed(center.x, center.y, radius, getAngle(), false, speed);
 		}
 		
+		public function fadeIn():void
+		{
+			fadeTween = new ColorTween();
+			addTween(fadeTween);		
+			fadeTween.tween(FADE_IN_DURATION, Colors.WHITE, Colors.WHITE, 0, 1);
+		}
+		
 		public function fadeOut():void
 		{
-			FP.world.remove(this);
+			fadeTween = new ColorTween(destroy);
+			addTween(fadeTween);		
+			fadeTween.tween(FADE_OUT_DURATION, Colors.WHITE, Colors.WHITE, image.alpha, 0);				
+		}
+		
+		public function destroy():void
+		{
+			FP.world.remove(this);			
 		}
 		
 		/**

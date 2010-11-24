@@ -58,6 +58,7 @@ package
 		{
 			FP.world.remove(GameWorld.player);
 			shootingLazer = false;
+			GameWorld.gameOver = true;
 		}
 		
 		override public function render():void

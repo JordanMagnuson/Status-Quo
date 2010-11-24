@@ -52,6 +52,11 @@ package
 			// Initial position
 			this.x = FP.screen.width / 2;
 			this.y = FP.screen.height / 2 + SafeZone.outerRadius - (SafeZone.outerRadius - SafeZone.innerRadius) / 2;			
+			canMove = true;
+			frozen = false;
+			g = 0;
+			speed = 0;
+			
 			
 			// Stun alarm
 			stunAlarm = new Alarm(STUN_TIME, restoreMovement);
@@ -108,7 +113,7 @@ package
 		
 		public function checkCollisions():void
 		{
-			// Collusion with enemy
+			// Collision with enemy
 			if (collide('enemy', x, y))
 			{
 				if (inDarkness())
@@ -118,18 +123,28 @@ package
 				//canMove = false;
 				//stunAlarm.reset(STUN_TIME);
 			}			
+			
+			// Collision with China (game over)
+			if (collide('china', x, y))
+			{
+				GameWorld.gameOver = true;
+			}		
 		}
 		
 		public function checkSafeZone():void
 		{
 			if (distanceToPoint(FP.halfWidth, FP.halfHeight) < SafeZone.innerRadius && canMove)
 			{
+				Globals.timeAlive = GameWorld.timer.timePassed;
+				Globals.modeOfDeath = 'absorbed';				
 				SoundController.music.stop();
 				SoundController.soundGlitch.play();
 				canMove = false;
 			}
 			else if (distanceToPoint(FP.halfWidth, FP.halfHeight) > SafeZone.outerRadius)
 			{
+				Globals.timeAlive = GameWorld.timer.timePassed;
+				Globals.modeOfDeath = 'destroyed';
 				if (!China.shootingLazer)
 				{
 					China.shootLazer();

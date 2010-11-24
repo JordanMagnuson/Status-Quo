@@ -34,7 +34,9 @@ package
 			
 			// Initial position
 			this.x = FP.screen.width / 2;
-			this.y = FP.screen.height / 2;			
+			this.y = FP.screen.height / 2;	
+			speed = MIN_SPEED;
+			angle = 0;
 			
 			// Initialize image, hitbox
 			image.originX = image.width / 2;
