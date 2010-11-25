@@ -34,7 +34,7 @@ package
 			// Mode of death
 			var modeOfDeathString:String;
 			if (Globals.modeOfDeath == 'absorbed')
-				modeOfDeathString = "before getting too close and being absorbed by a larger circle."
+				modeOfDeathString = "before getting too close to and being absorbed by a larger circle."
 			else
 				modeOfDeathString = "before antagonizing and being destroyed by a larger circle."
 			
@@ -47,6 +47,11 @@ package
 			add(new TextEntity(modeOfDeathString, FP.halfWidth, FP.halfHeight - 70));
 				
 			add(new TextEntity("Press space to try again", FP.halfWidth, FP.halfHeight));
+		}
+		
+		override public function begin():void
+		{
+			add(new FadeIn);
 		}
 		
 		override public function update():void

@@ -95,6 +95,7 @@ package
 		 */
 		public function movement():void
 		{
+			speed = 50;
 			if (inDarkness())
 			{
 				if (Input.check("RESIST"))

@@ -12,6 +12,7 @@ package
 	public class GameWorld extends World
 	{	
 		public static var gameOver:Boolean = false;
+		public var fadeStarted:Boolean = false;
 		public static var player:Player;
 		public static var china:China;
 		
@@ -33,8 +34,11 @@ package
 		override public function update():void
 		{
 			//trace(timer.minutesPassed + ':' + timer.secondsPassed);
-			if (gameOver)
-				FP.world = new GameOverWorld;
+			if (gameOver && !fadeStarted)
+			{
+				fadeStarted = true;
+				add(new FadeOut(GameOverWorld));
+			}
 			super.update();
 		}		
 		

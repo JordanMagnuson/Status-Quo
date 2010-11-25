@@ -59,7 +59,6 @@ package
 			updateRotations();
 			if (lastAngle > 300)
 				fadeOut();
-			trace(fadeTween.complete);
 		}
 		
 		public function updateRotations():void
