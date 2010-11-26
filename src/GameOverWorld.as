@@ -56,7 +56,7 @@ package
 		
 		override public function update():void
 		{
-			if (Input.pressed(Key.SPACE))
+			if (Input.released(Key.SPACE))
 			{
 				FP.world = new GameWorld;
 			}

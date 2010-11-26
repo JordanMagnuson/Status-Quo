@@ -28,6 +28,7 @@ package
 		 * Movement properties.
 		 */
 		public var g:Number = 0;
+		public var accel_current:Number = 0;
 		public var speed:Number = 0;		
 		
 		/**
@@ -117,6 +118,7 @@ package
 			// Collision with enemy
 			if (collide('enemy', x, y))
 			{
+				SoundController.soundHit.play();
 				if (inDarkness())
 					y -= ENEMY_MOVE_DIST;
 				else
@@ -214,8 +216,8 @@ package
 		{
 			if (Math.abs(g) < GRAV)
 			{
-				if (g < 0) g -= 0.2;
-				else g += 0.2;
+				if (g < 0) g -= 0.1;
+				else g += 0.1;
 			}
 			// Reverse gravity depending on LightTail.
 			if (inDarkness())
@@ -243,8 +245,10 @@ package
 		{
 			// evaluate input
 			var accel:Number = 0;
+			if (accel_current < ACCEL)
+				accel_current += 0.2;
 			if (Input.check("RESIST") || Input.mouseDown) 
-				accel += ACCEL;
+				accel += accel_current;
 			
 			// Reverse gravity depending on LightTail.
 			if (inDarkness())
