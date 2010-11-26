@@ -6,6 +6,7 @@ package
 	import flash.events.Event;
 	import flash.events.ProgressEvent;
 	import flash.text.Font;
+	import flash.text.TextFormat;
 	import flash.utils.getDefinitionByName;
 	import flash.display.Sprite;
 	import flash.text.TextField;
@@ -26,9 +27,13 @@ package
 		private var border:Sprite = new Sprite();
 		private var size:Number = 256;
 		private var text:TextField = new TextField();
+		private var textFormat:TextFormat = new TextFormat('verdana', 12);
 
 		private var txtColor:uint = 0xFFFFFF;
 		private var loaderColor:uint = 0xD8D8D8;
+		
+		// Font
+		[Embed(source = '../assets/verdana.ttf', embedAsCFF="false", fontFamily = 'verdana')] private var Verdana:Class;
 		
 		// Backdrop
 		[Embed(source='../assets/loading_background.png')] static private var imgBackground:Class;
@@ -70,6 +75,7 @@ package
 			border.graphics.lineStyle(2, loaderColor);
 			border.graphics.drawRect(0, 0, size, 28);
 			
+			text.defaultTextFormat = textFormat;
 			text.textColor = txtColor;
 			text.text = "Loading: " + Math.ceil((loaderInfo.bytesLoaded/loaderInfo.bytesTotal)*100) + "%";
 			

@@ -18,6 +18,7 @@ package
 		 * Constants.
 		 */
 		public const MAX_SPEED:Number = 50;
+		public const MAX_LINEAR_SPEED:Number = 35;
 		public const GRAV:Number = 100;
 		public const ACCEL:Number = 200;
 		public const STUN_TIME:Number = 0.5;	// Seconds player can't move after being hit by enemy.
@@ -79,15 +80,20 @@ package
 		{
 			updateColor();
 			linearMovement();
-			//if (!frozen)
-			//{
-				//gravity();
-				//if (canMove) 
-					//acceleration();
-				//move(speed * FP.elapsed, pointDirection(x, y, FP.screen.width / 2, FP.screen.height / 2));	
-				//checkCollisions();
-				//checkSafeZone();
-			//}
+			accelMovement();
+			checkCollisions();
+			checkSafeZone();			
+		}
+		
+		public function accelMovement():void
+		{
+			if (!frozen)
+			{
+				gravity();
+				if (canMove) 
+					acceleration();
+				move(speed * FP.elapsed, pointDirection(x, y, FP.screen.width / 2, FP.screen.height / 2));	
+			}			
 		}
 		
 		/**
@@ -95,8 +101,8 @@ package
 		 */
 		public function linearMovement():void
 		{
-			if (speed < MAX_SPEED)
-				speed += 0.1;
+			if (speed < MAX_LINEAR_SPEED)
+				speed += 0.05;
 			if (!frozen)
 			{
 				if (inDarkness())
@@ -122,8 +128,6 @@ package
 					}
 				}
 			}
-			checkCollisions();
-			checkSafeZone();
 		}
 		
 		public function checkCollisions():void
