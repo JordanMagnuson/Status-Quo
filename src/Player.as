@@ -17,7 +17,7 @@ package
 		/**
 		 * Constants.
 		 */
-		public const MAX_SPEED:Number = 60;
+		public const MAX_SPEED:Number = 50;
 		public const GRAV:Number = 100;
 		public const ACCEL:Number = 200;
 		public const STUN_TIME:Number = 0.5;	// Seconds player can't move after being hit by enemy.
@@ -78,38 +78,52 @@ package
 		override public function update():void 
 		{
 			updateColor();
-			//movement();
-			if (!frozen)
-			{
-				gravity();
-				if (canMove) 
-					acceleration();
-				move(speed * FP.elapsed, pointDirection(x, y, FP.screen.width / 2, FP.screen.height / 2));	
-				checkCollisions();
-				checkSafeZone();
-			}
+			linearMovement();
+			//if (!frozen)
+			//{
+				//gravity();
+				//if (canMove) 
+					//acceleration();
+				//move(speed * FP.elapsed, pointDirection(x, y, FP.screen.width / 2, FP.screen.height / 2));	
+				//checkCollisions();
+				//checkSafeZone();
+			//}
 		}
 		
 		/**
 		 * Alternative movement with no acceleration... NOT BEING USED
 		 */
-		public function movement():void
+		public function linearMovement():void
 		{
-			speed = 50;
-			if (inDarkness())
+			if (speed < MAX_SPEED)
+				speed += 0.1;
+			if (!frozen)
 			{
-				if (Input.check("RESIST"))
-					move(speed * FP.elapsed, pointDirection(FP.screen.width / 2, FP.screen.height / 2, x, y));
-				else
-					move(speed * FP.elapsed, pointDirection(x, y, FP.screen.width / 2, FP.screen.height / 2));		
+				if (inDarkness())
+				{
+					if (canMove)
+					{
+						if (Input.check("RESIST") || Input.mouseDown)
+							move(speed * FP.elapsed, pointDirection(FP.screen.width / 2, FP.screen.height / 2, x, y));
+						else
+							move(speed * FP.elapsed, pointDirection(x, y, FP.screen.width / 2, FP.screen.height / 2));	
+					}
+					else
+						move(speed * FP.elapsed, pointDirection(x, y, FP.screen.width / 2, FP.screen.height / 2));
+				}
+				else 
+				{
+					if (canMove)
+					{
+						if (Input.check("RESIST") || Input.mouseDown)
+							move(speed * FP.elapsed, pointDirection(x, y, FP.screen.width / 2, FP.screen.height / 2));
+						else
+							move(speed * FP.elapsed, pointDirection(FP.screen.width / 2, FP.screen.height / 2, x, y));	
+					}
+				}
 			}
-			else 
-			{
-				if (Input.check("RESIST"))
-					move(speed * FP.elapsed, pointDirection(x, y, FP.screen.width / 2, FP.screen.height / 2));
-				else
-					move(speed * FP.elapsed, pointDirection(FP.screen.width / 2, FP.screen.height / 2, x, y));				
-			}
+			checkCollisions();
+			checkSafeZone();
 		}
 		
 		public function checkCollisions():void

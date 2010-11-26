@@ -2,6 +2,7 @@ package
 {
 	import net.flashpunk.Engine;
 	import net.flashpunk.FP;
+	import flash.ui.Mouse;
 	
 	public class Main extends Engine
 	{
@@ -16,6 +17,7 @@ package
 			//FP.console.watch('col', 'row');			
 			
 			FP.world = new GameWorld;
+			Mouse.hide();
 		}
 	}
 }
