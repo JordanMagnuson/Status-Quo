@@ -17,7 +17,7 @@ package
 		/**
 		 * Constants.
 		 */
-		public const MAX_SPEED:Number = 80;
+		public const MAX_SPEED:Number = 60;
 		public const GRAV:Number = 100;
 		public const ACCEL:Number = 200;
 		public const STUN_TIME:Number = 0.5;	// Seconds player can't move after being hit by enemy.
@@ -55,7 +55,6 @@ package
 			this.y = FP.screen.height / 2 + SafeZone.outerRadius - (SafeZone.outerRadius - SafeZone.innerRadius) / 2;			
 			canMove = true;
 			frozen = false;
-			g = 0;
 			speed = 0;
 			
 			
@@ -246,7 +245,7 @@ package
 			// evaluate input
 			var accel:Number = 0;
 			if (accel_current < ACCEL)
-				accel_current += 0.2;
+				accel_current += 0.4;
 			if (Input.check("RESIST") || Input.mouseDown) 
 				accel += accel_current;
 			
