@@ -245,7 +245,7 @@ package
 			// evaluate input
 			var accel:Number = 0;
 			if (accel_current < ACCEL)
-				accel_current += 0.4;
+				accel_current += 0.2;
 			if (Input.check("RESIST") || Input.mouseDown) 
 				accel += accel_current;
 			
