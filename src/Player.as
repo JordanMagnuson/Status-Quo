@@ -7,6 +7,7 @@ package
 	import net.flashpunk.tweens.misc.Alarm;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
+	import net.flashpunk.utils.Draw;
 	
 	/**
 	 * ...
@@ -17,7 +18,7 @@ package
 		/**
 		 * Constants.
 		 */
-		public const MAX_SPEED:Number = 50;
+		public const MAX_SPEED:Number = 60;
 		public const MAX_LINEAR_SPEED:Number = 35;
 		public const GRAV:Number = 100;
 		public const ACCEL:Number = 200;
@@ -29,7 +30,8 @@ package
 		 * Movement properties.
 		 */
 		public var g:Number = 0;
-		public var accel_current:Number = 0;
+		public var accel:Number = 0;
+		public var accelCurrent:Number = 0;
 		public var speed:Number = 0;		
 		
 		/**
@@ -43,7 +45,8 @@ package
 		/**
 		 * Image.
 		 */
-		public var image:Image = Image.createCircle(8, Colors.WHITE);	
+		[Embed(source = '../assets/arrow.png')] private const ARROW:Class;
+		public var arrowImage:Image = new Image(ARROW);		
 		
 		public function Player(x:Number = 0, y:Number = 0) 
 		{
@@ -70,6 +73,12 @@ package
 			image.y = -image.originY;		
 			setHitbox(image.width, image.height, image.originX, image.originY);	
 			
+			arrowImage.originX = arrowImage.width / 2;
+			arrowImage.originY = arrowImage.height / 2;
+			arrowImage.x = -arrowImage.originX;
+			arrowImage.y = -arrowImage.originY;		
+			setHitbox(arrowImage.width, arrowImage.height, arrowImage.originX, arrowImage.originY);			
+			
 			// Define input
 			Input.define("R", Key.RIGHT);
 			Input.define("L", Key.LEFT);		
@@ -80,9 +89,37 @@ package
 		{
 			updateColor();
 			linearMovement();
-			accelMovement();
+			//accelMovement();
 			checkCollisions();
-			checkSafeZone();			
+			checkSafeZone();	
+			if (Input.pressed("RESIST") || Input.mousePressed)
+			{
+				arrowImage.alpha -= .01;			
+			}					
+			//if (Input.RESIST") || Input.mouseUp)
+				//changedAlpha = false;
+			super.update();	
+		}
+		
+		override public function render():void
+		{
+			// Render the arrow
+			if ((Input.check("RESIST") || Input.mouseDown) && !frozen)
+			{
+				if (inDarkness())
+				{
+					arrowImage.color = Colors.WHITE;
+					arrowImage.angle = 180;
+					Draw.graphic(arrowImage, x, y + image.height);
+				}
+				else
+				{
+					arrowImage.color = Colors.BLACK;
+					arrowImage.angle = 0;
+					Draw.graphic(arrowImage, x, y - image.height);
+				}
+			}
+			super.render();
 		}
 		
 		public function accelMovement():void
@@ -241,18 +278,20 @@ package
 			{
 				if (g < 0)
 				{
-					speed = 0;
+					//speed = 0;
 					g *= -1;
 				}
 			}
 			else if (g > 0)
 			{
-				speed = 0;
+				//speed = 0;
 				g *= -1;
 			}
 			speed += g * FP.elapsed;
 			if (speed > MAX_SPEED) 
 				speed = MAX_SPEED;
+			if (speed < -MAX_SPEED)
+				speed = -MAX_SPEED;
 		}
 		
 		/**
@@ -260,39 +299,58 @@ package
 		 */
 		private function acceleration():void
 		{
+			accel = 0;
 			// evaluate input
-			var accel:Number = 0;
-			if (accel_current < ACCEL)
-				accel_current += 0.2;
+			//if (Math.abs(accel_current) < ACCEL)
+			//{
+				//if (accel_current < 0) accel_current -= 0.2;
+				//else accel_current += 0.2;
+			//}			
+			if (accelCurrent < ACCEL)
+				accelCurrent += 0.2;
 			if (Input.check("RESIST") || Input.mouseDown) 
-				accel += accel_current;
-			
-			// Reverse gravity depending on LightTail.
-			if (inDarkness())
 			{
-				if (accel > 0)
-				{
-					//speed = 0;
-					accel *= -1;
-				}
+				if (inDarkness())
+					accel = -accelCurrent;
+				else
+					accel = accelCurrent;
 			}
-			else if (accel < 0)
-			{
+			  
+			// Reverse gravity depending on LightTail.
+			//if (inDarkness())
+			//{
+				//if (accel > 0)
+				//{
+					//speed = 0;
+					//accel *= -1;
+				//}
+			//}
+			//else if (accel < 0)
+			//{
 				//speed = 0;
-				accel *= -1;
-			}			
+				//accel *= -1;
+			//}			
 			
 			// handle acceleration
 			if (accel != 0)
 			{
-				// accelerate
-				if (speed < MAX_SPEED)
-				{
-					speed += accel * FP.elapsed;
-					if (speed > MAX_SPEED) speed = MAX_SPEED;
-				}
-				else accel = 0;
+				speed += accel * FP.elapsed;
+				if (speed > MAX_SPEED) 
+					speed = MAX_SPEED;
+				if (speed < -MAX_SPEED)
+					speed = -MAX_SPEED;						
 			}
+	
+			//if (accel != 0)
+			//{
+				// accelerate
+				//if (speed < MAX_SPEED)
+				//{
+					//speed += accel * FP.elapsed;
+					//if (speed > MAX_SPEED) speed = MAX_SPEED;
+				//}
+				//else accel = 0;
+			//}
 			
 		}		
 		

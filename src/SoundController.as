@@ -14,7 +14,7 @@ package
 		public var musicAlarm:Alarm = new Alarm(1, playMusic);	
 		
 		// Music
-		[Embed(source = '../assets/Sabrepulse - Braver - trimmed.mp3')] private static const MUSIC:Class;
+		[Embed(source='../assets/Sabrepulse - Braver - short.mp3')] private static const MUSIC:Class;
 		public static var music:Sfx = new Sfx(MUSIC);
 		
 		// lazer (destroyed)
