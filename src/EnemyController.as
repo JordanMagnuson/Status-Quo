@@ -21,7 +21,7 @@ package
 		{
 			releaseRate = MAX_RELEASE_RATE;
 			enemyAlarm = new Alarm(releaseRate, releaseEnemy);
-			addTween(enemyAlarm, true);
+			addTween(enemyAlarm);
 		}
 		
 		public function changeReleaseRate(newRate:Number):void
@@ -31,7 +31,7 @@ package
 			trace('release rate: ' + EnemyController.releaseRate);
 		}
 		
-		public function releaseEnemy():void
+		public static function releaseEnemy():void
 		{
 			// Reset the alarm
 			//trace('release rate: ' + releaseRate);

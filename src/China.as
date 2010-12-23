@@ -16,7 +16,13 @@ package
 	{
 		public static const LAZER_DURATION:Number = 0.2;	// How long the lazer shoots for
 		
+		
+		public static var breatheAlarm:Alarm;
 		public static var breathe:NumTween;
+		public static var breathing:Boolean = false;
+		public static var breathingIn:Boolean;
+		// Breathe delay for safe zone
+		public static var breatheDelayAlarm:Alarm;
 		
 		public static const RADIUS_ORIG:Number = 43;
 		public static var radius:Number = RADIUS_ORIG;
@@ -49,8 +55,10 @@ package
 			
 			lazerAlarm = new Alarm(LAZER_DURATION, stopLazer);
 			addTween(lazerAlarm);
+			//breatheAlarm = new Alarm(3 + SoundController.startingPause, startBreathing);
+			//addTween(breatheAlarm, true);
 			
-			breatheIn();
+			startBreathing();
 		}
 		
 		/**
@@ -71,15 +79,25 @@ package
 			GameWorld.gameOver = true;
 		}
 		
+		public function startBreathing():void
+		{
+			breathing = true;
+			breatheIn();
+		}
+		
 		public function breatheIn():void
 		{
+			breathingIn = true;
+			trace('breathingIn');
 			breathe = new NumTween(breatheOut);
 			addTween(breathe);
-			breathe.tween(1, 1.2, 3);	
+			breathe.tween(1, 1.2, 3);
 		}
 		
 		public function breatheOut():void
 		{
+			breathingIn = false;
+			trace('breathingOut');
 			breathe = new NumTween(breatheIn);
 			addTween(breathe);
 			breathe.tween(1.2, 1, 3);			
@@ -104,7 +122,12 @@ package
 		
 		override public function update():void
 		{
+			if (breathing)
+				breathe.active = true;
+			else
+				breathe.active = false;
 			animation();
+			//trace('china percent left: ' + breathe.percent);
 			super.update();
 		}
 		

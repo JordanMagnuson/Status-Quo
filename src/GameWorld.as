@@ -16,6 +16,8 @@ package
 		public static var player:Player;
 		public static var china:China;
 		public static var enemyController:EnemyController;
+		public static var timingController:TimingController;
+		public static var safeZone:SafeZone;
 		
 		// keeps track of how long the player is alive
 		public static var timer:TimeCounter;
@@ -24,12 +26,13 @@ package
 		{
 			gameOver = false;
 			add(china = new China);
-			add(new SafeZone);
+			add(safeZone = new SafeZone);
 			add(new LightTail);
 			add(player = new Player);
 			add(enemyController = new EnemyController);
 			add(new SoundController);
 			add(timer = new TimeCounter);
+			add(timingController = new TimingController);
 		}
 		
 		override public function update():void

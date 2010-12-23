@@ -40,7 +40,7 @@ package
 		public static var color:uint = Colors.WHITE;	// Color changes from white to black depending on where player is in LightTail.		
 		public static var stunAlarm:Alarm;
 		public static var canMove:Boolean = true;	// Whether the player input makes a difference.
-		public static var frozen:Boolean = false; 	// Whether the player is totally frozen (no grav, etc.)
+		public static var frozen:Boolean = true; 	// Whether the player is totally frozen (no grav, etc.)
 		
 		/**
 		 * Image.
@@ -59,7 +59,6 @@ package
 			this.x = FP.screen.width / 2;
 			this.y = FP.screen.height / 2 + SafeZone.outerRadius - (SafeZone.outerRadius - SafeZone.innerRadius) / 2;			
 			canMove = true;
-			frozen = false;
 			speed = 0;
 			
 			
@@ -89,7 +88,6 @@ package
 		override public function update():void 
 		{
 			updateColor();
-			//linearMovement();
 			accelMovement();
 			checkCollisions();
 			checkSafeZone();	

@@ -11,10 +11,12 @@ package
 	public class SoundController extends Entity
 	{
 		// How long to wait before playing music at start
-		public var musicAlarm:Alarm = new Alarm(1, playMusic);	
+		public static var startingPause:Number = 6;
+		public var musicAlarm:Alarm = new Alarm(startingPause, playMusic);	
 		
 		// Music
-		[Embed(source='../assets/Sounds.swf', symbol='music')] private static const MUSIC:Class;
+		[Embed(source = '../assets/Sounds.swf', symbol = 'music')] private static const MUSIC:Class;
+		//[Embed(source = '../assets/Sabrepulse - Braver - trimmed_to_silence.mp3')] private static const MUSIC:Class;
 		public static var music:Sfx = new Sfx(MUSIC);
 		
 		// lazer (destroyed)
@@ -36,12 +38,15 @@ package
 		
 		override public function added():void
 		{
-			addTween(musicAlarm, true);
+			//addTween(musicAlarm, true);
 		}
 		
 		public function playMusic():void
 		{
 			music.loop();
+			LightTail.moving = true;
+			Player.frozen = false;
+			EnemyController.releaseEnemy();
 		}
 		
 	}

@@ -10,6 +10,8 @@ package
 	 */
 	public class LightTail extends Entity
 	{
+		public static var moving:Boolean = false;
+		
 		public static const MIN_SPEED:Number = 20;
 		//public static const MAX_SPEED:Number = 150;
 		//public static const ROTATIONS_TILL_CHANGE_SPEED:int = 1;
@@ -49,7 +51,8 @@ package
 		
 		override public function update():void
 		{
-			rotate();
+			if (moving)
+				rotate();
 		}
 		
 		/**
@@ -78,7 +81,8 @@ package
 				angle = angle - 360;
 			}
 			image.angle = angle;		
-			image.scale = China.breathe.value;
+			if (SafeZone.breathing)
+				image.scale = SafeZone.breathe.value;
 		}
 		
 	}
