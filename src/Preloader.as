@@ -30,7 +30,7 @@ package
 		private var textFormat:TextFormat = new TextFormat('verdana', 12);
 
 		private var txtColor:uint = 0xFFFFFF;
-		private var loaderColor:uint = 0xD8D8D8;
+		private var loaderColor:uint = 0xFFFFFF;
 		
 		// Font
 		[Embed(source = '../assets/verdana.ttf', embedAsCFF="false", fontFamily = 'verdana')] private var Verdana:Class;

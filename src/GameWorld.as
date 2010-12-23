@@ -15,6 +15,7 @@ package
 		public var fadeStarted:Boolean = false;
 		public static var player:Player;
 		public static var china:China;
+		public static var enemyController:EnemyController;
 		
 		// keeps track of how long the player is alive
 		public static var timer:TimeCounter;
@@ -26,7 +27,7 @@ package
 			add(new SafeZone);
 			add(new LightTail);
 			add(player = new Player);
-			add(new EnemyController);
+			add(enemyController = new EnemyController);
 			add(new SoundController);
 			add(timer = new TimeCounter);
 		}

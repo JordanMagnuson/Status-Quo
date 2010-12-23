@@ -9,9 +9,9 @@ package
 	 */
 	public class EnemyController extends Entity
 	{
-		public static const MIN_RLEASE_RATE:Number = 0.5;
+		//public static const MIN_RLEASE_RATE:Number = 0.2;
 		public static const MAX_RELEASE_RATE:Number = 2;
-		public static const RELEASE_RATE_CHANGE:Number = 0.02
+		public static const RELEASE_RATE_CHANGE:Number = 0.6;
 		
 		public static var releaseRate:Number = MAX_RELEASE_RATE;
 		public static var releaseAngle:Number = 0;
@@ -24,10 +24,19 @@ package
 			addTween(enemyAlarm, true);
 		}
 		
+		public function changeReleaseRate(newRate:Number):void
+		{
+			//releaseRate = Math.max(releaseRate / RELEASE_RATE_CHANGE, MIN_RLEASE_RATE);
+			releaseRate = newRate;
+			trace('release rate: ' + EnemyController.releaseRate);
+		}
+		
 		public function releaseEnemy():void
 		{
 			// Reset the alarm
-			releaseRate = Math.max(releaseRate - RELEASE_RATE_CHANGE, MIN_RLEASE_RATE);
+			//trace('release rate: ' + releaseRate);
+			//releaseRate now changed in light tale
+			//releaseRate = Math.max(releaseRate - RELEASE_RATE_CHANGE, MIN_RLEASE_RATE);
 			enemyAlarm.reset(releaseRate);
 			//trace('release rate: ' + releaseRate);
 			

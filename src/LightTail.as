@@ -11,9 +11,9 @@ package
 	public class LightTail extends Entity
 	{
 		public static const MIN_SPEED:Number = 20;
-		public static const MAX_SPEED:Number = 150;
+		//public static const MAX_SPEED:Number = 150;
 		//public static const ROTATIONS_TILL_CHANGE_SPEED:int = 1;
-		public static const SPEED_CHANGE_RATE:Number = 1;
+		public static const SPEED_CHANGE_RATE:Number = 2.5;
 		
 		public static var speed:Number = MIN_SPEED;
 		public static var angle:Number = 0;
@@ -37,6 +37,7 @@ package
 			this.y = FP.screen.height / 2;	
 			speed = MIN_SPEED;
 			angle = 0;
+			//visible = false;
 			
 			// Initialize image, hitbox
 			image.originX = image.width / 2;
@@ -59,6 +60,7 @@ package
 		public function changeRotationSpeed(speed:Number):void
 		{
 			LightTail.speed = speed;
+			trace('speed: ' + speed);
 			var enemyList:Array = [];
 			FP.world.getClass(Enemy, enemyList);
 			for each (var e:Enemy in enemyList)
@@ -71,7 +73,8 @@ package
 			if (angle > 360)	// Full rotation
 			{
 				rotations++;
-				changeRotationSpeed(speed + SPEED_CHANGE_RATE);
+				changeRotationSpeed(speed + (SPEED_CHANGE_RATE / rotations));
+				GameWorld.enemyController.changeReleaseRate(EnemyController.releaseRate - (EnemyController.RELEASE_RATE_CHANGE / rotations));
 				angle = angle - 360;
 			}
 			image.angle = angle;			
