@@ -77,7 +77,8 @@ package
 				GameWorld.enemyController.changeReleaseRate(EnemyController.releaseRate - (EnemyController.RELEASE_RATE_CHANGE / rotations));
 				angle = angle - 360;
 			}
-			image.angle = angle;			
+			image.angle = angle;		
+			image.scale = China.breathe.value;
 		}
 		
 	}

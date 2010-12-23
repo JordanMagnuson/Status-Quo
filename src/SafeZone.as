@@ -10,6 +10,9 @@ package
 	 */
 	public class SafeZone extends Entity
 	{
+		public static const INNER_RADIUS:Number = 117;
+		public static const OUTER_RADIUS:Number = 227;
+		
 		public static var innerRadius:Number = 117;
 		public static var outerRadius:Number = 227;
 		
@@ -22,6 +25,12 @@ package
 			// Initial position
 			this.x = FP.screen.width / 2;
 			this.y = FP.screen.height / 2;			
+		}
+		
+		override public function update():void
+		{
+			innerRadius = INNER_RADIUS * (China.breathe.value);
+			outerRadius = OUTER_RADIUS * (China.breathe.value);
 		}
 		
 		override public function render():void

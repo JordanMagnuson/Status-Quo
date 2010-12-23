@@ -14,6 +14,7 @@ package
 			
 			// Debug console
 			FP.console.enable();
+			//FP.screen.smoothing = false;
 			//FP.console.watch('col', 'row');			
 			
 			FP.world = new GameWorld;

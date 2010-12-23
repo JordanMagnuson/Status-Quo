@@ -24,7 +24,7 @@ package
 		public const ACCEL:Number = 200;
 		public const STUN_TIME:Number = 0.5;	// Seconds player can't move after being hit by enemy.
 		public const STUN_COLOR:uint = Colors.RED;
-		public const ENEMY_MOVE_DIST:Number = 20;	// Distance player moves when hits enemy.
+		public const ENEMY_MOVE_DIST:Number = 30;	// Distance player moves when hits enemy.
 		
 		/**
 		 * Movement properties.

@@ -1,11 +1,13 @@
 package  
 {
+	import flash.net.URLRequest;
 	import net.flashpunk.Entity;
 	import net.flashpunk.graphics.Text;
 	import net.flashpunk.World;
 	import net.flashpunk.FP;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
+	import flash.net.navigateToURL;
 	
 	/**
 	 * ...
@@ -15,6 +17,8 @@ package
 	{
 		
 		[Embed(source = '../assets/CasualEncounter.ttf', embedAsCFF="false", fontFamily = 'CasualEncounter')] private var CasualEncounter:Class;		
+		
+		public var learnMoreURL:String = "http://en.wikipedia.org/wiki/Republic_of_China";
 		
 		public function GameOverWorld() 
 		{
@@ -46,7 +50,9 @@ package
 		
 			add(new TextEntity(modeOfDeathString, FP.halfWidth, FP.halfHeight - 70));
 				
-			add(new TextEntity("Press space to try again", FP.halfWidth, FP.halfHeight));
+			add(new TextEntity("Press space to try again.", FP.halfWidth, FP.halfHeight));
+			
+			add(new TextEntity("Press X to learn more about Taiwan.", FP.halfWidth, FP.halfHeight + 30));
 		}
 		
 		override public function begin():void
@@ -59,6 +65,15 @@ package
 			if (Input.released(Key.SPACE) || Input.mouseReleased)
 			{
 				FP.world = new GameWorld;
+			}
+			if (Input.pressed(Key.X))
+			{
+				var request:URLRequest = new URLRequest(learnMoreURL);
+				try {
+				  navigateToURL(request, '_blank'); // second argument is target
+				} catch (e:Error) {
+				  trace("Error occurred!");
+				}
 			}
 			super.update();
 		}
