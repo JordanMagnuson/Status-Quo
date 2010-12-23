@@ -45,6 +45,7 @@ package
 		/**
 		 * Image.
 		 */
+		public var image:Image = Image.createCircle(9, Colors.WHITE);
 		[Embed(source = '../assets/arrow.png')] private const ARROW:Class;
 		public var arrowImage:Image = new Image(ARROW);		
 		
@@ -88,8 +89,8 @@ package
 		override public function update():void 
 		{
 			updateColor();
-			linearMovement();
-			//accelMovement();
+			//linearMovement();
+			accelMovement();
 			checkCollisions();
 			checkSafeZone();	
 			if (Input.pressed("RESIST") || Input.mousePressed)
