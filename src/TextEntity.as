@@ -16,7 +16,8 @@ package
 		public var text:Text;
 		public var bg:Image;
 		
-		[Embed(source = '../assets/CasualEncounter.ttf', embedAsCFF="false", fontFamily = 'CasualEncounter')] private var CasualEncounter:Class;
+		//[Embed(source = '../assets/CasualEncounter.ttf', embedAsCFF = "false", fontFamily = 'CasualEncounter')] private var CasualEncounter:Class;
+		[Embed(source = '../assets/verdana.ttf', embedAsCFF="false", fontFamily = 'verdana')] private var Verdana:Class;		
 		
 		public function TextEntity(textString:String, x:Number = 0, y:Number = 0, centered:Boolean = true, size:int = 8, color:uint = Colors.WHITE, fillBG:Boolean = false, bgColor:uint = Colors.BLACK) 
 		{
@@ -25,8 +26,8 @@ package
 			this.x = x;
 			this.y = y;		
 			text = new Text(textString, x, y);
-			text.font = 'CasualEncounter';
-			text.size = size;
+			text.font = 'verdana';
+			text.size = 14;
 			
 			// Initialize text rendering
 			if (centered)

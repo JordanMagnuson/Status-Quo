@@ -67,9 +67,15 @@ package
 		public static function shootLazer():void
 		{
 			SoundController.music.stop();
-			SoundController.soundLazer.play();
+			SoundController.soundLazer.play(2);
 			shootingLazer = true;
 			lazerAlarm.reset(LAZER_DURATION);
+			
+			// Freeze everything
+			breathing = false;
+			Player.breathing = false;
+			LightTail.changeRotationSpeed(0);
+			EnemyController.enemyAlarm.active = false;
 		}
 		
 		public static function stopLazer():void

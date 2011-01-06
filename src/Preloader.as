@@ -13,7 +13,7 @@ package
 	import flash.utils.getDefinitionByName;
 	import flash.events.MouseEvent;
 	
-	[SWF(width = "640", height = "480")]
+	[SWF(width = "640", height = "580")]
 	
 	/**
 	 * ...
@@ -92,7 +92,7 @@ package
 				{
 					addChild(clickSprite);
 					clickSprite.x = (stage.stageWidth / 2) - clickSprite.width / 2;
-					clickSprite.y = 360;
+					clickSprite.y = 400;
 					stage.addEventListener(MouseEvent.CLICK, clickStartup);
 				}
 				else

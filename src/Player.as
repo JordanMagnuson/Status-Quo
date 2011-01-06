@@ -5,6 +5,7 @@ package
 	import net.flashpunk.FP;
 	import net.flashpunk.Sfx;
 	import net.flashpunk.tweens.misc.Alarm;
+	import net.flashpunk.tweens.misc.NumTween;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
 	import net.flashpunk.utils.Draw;
@@ -18,13 +19,14 @@ package
 		/**
 		 * Constants.
 		 */
+		public static const RADIUS_ORIG:Number = 8;
 		public const MAX_SPEED:Number = 60;
 		public const MAX_LINEAR_SPEED:Number = 35;
 		public const GRAV:Number = 100;
 		public const ACCEL:Number = 200;
 		public const STUN_TIME:Number = 0.5;	// Seconds player can't move after being hit by enemy.
 		public const STUN_COLOR:uint = Colors.RED;
-		public const ENEMY_MOVE_DIST:Number = 30;	// Distance player moves when hits enemy.
+		public const ENEMY_MOVE_DIST:Number = 20;	// Distance player moves when hits enemy.
 		
 		/**
 		 * Movement properties.
@@ -35,9 +37,17 @@ package
 		public var speed:Number = 0;		
 		
 		/**
+		 * Breathing
+		 */
+		public static var breatheAlarm:Alarm;
+		public static var breathe:NumTween;
+		public static var breathing:Boolean = true;		
+		
+		/**
 		 * Other properties.                  
 		 */
 		public static var color:uint = Colors.WHITE;	// Color changes from white to black depending on where player is in LightTail.		
+		public static var radius:Number = RADIUS_ORIG;
 		public static var stunAlarm:Alarm;
 		public static var canMove:Boolean = true;	// Whether the player input makes a difference.
 		public static var frozen:Boolean = true; 	// Whether the player is totally frozen (no grav, etc.)
@@ -52,7 +62,7 @@ package
 		public function Player(x:Number = 0, y:Number = 0) 
 		{
 			type = 'player';
-			graphic = image;
+			//graphic = image;
 			layer = 0;
 			
 			// Initial position
@@ -67,30 +77,39 @@ package
 			addTween(stunAlarm);
 			
 			// Initialize image, hitbox
-			image.originX = image.width / 2;
-			image.originY = image.height / 2;
-			image.x = -image.originX;
-			image.y = -image.originY;		
-			setHitbox(image.width, image.height, image.originX, image.originY);	
+			//image.originX = image.width / 2;
+			//image.originY = image.height / 2;
+			//image.x = -image.originX;
+			//image.y = -image.originY;		
+			width = height = 2 * RADIUS_ORIG;
+			setHitbox(width, height, x + halfWidth, y + halfHeight);	
 			
 			arrowImage.originX = arrowImage.width / 2;
 			arrowImage.originY = arrowImage.height / 2;
 			arrowImage.x = -arrowImage.originX;
 			arrowImage.y = -arrowImage.originY;		
-			setHitbox(arrowImage.width, arrowImage.height, arrowImage.originX, arrowImage.originY);			
+			//setHitbox(arrowImage.width, arrowImage.height, arrowImage.originX, arrowImage.originY);			
 			
 			// Define input
 			Input.define("R", Key.RIGHT);
 			Input.define("L", Key.LEFT);		
 			Input.define("RESIST", Key.SPACE);
+			
+			// Breathe
+			breatheIn();
 		}
 		
 		override public function update():void 
 		{
+			if (breathing)
+				breathe.active = true;
+			else
+				breathe.active = false;			
 			updateColor();
 			accelMovement();
 			checkCollisions();
 			checkSafeZone();	
+			animate();
 			if (Input.pressed("RESIST") || Input.mousePressed)
 			{
 				arrowImage.alpha -= .01;			
@@ -118,7 +137,18 @@ package
 					Draw.graphic(arrowImage, x, y - image.height);
 				}
 			}
-			super.render();
+			
+			//Render the player
+			Draw.circlePlus(x, y, radius, color, 1);
+			
+			//super.render();
+		}
+		
+		public function animate():void
+		{
+			radius = RADIUS_ORIG * breathe.value;
+			//width = height = radius * 2;
+			//trace(width);
 		}
 		
 		public function accelMovement():void
@@ -227,24 +257,39 @@ package
 			//}
 			if (distanceToPoint(FP.halfWidth, FP.halfHeight) > SafeZone.outerRadius)
 			{
-				if (image.color != Colors.WHITE)
+				if (color != Colors.WHITE)
 				{
-					image.color = Colors.WHITE;
+					color = Colors.WHITE;
 				}				
 			}
 			else if (inDarkness())
 			{
-				if (image.color != Colors.WHITE)
+				if (color != Colors.WHITE)
 				{
-					image.color = Colors.WHITE;
+					color = Colors.WHITE;
 				}
 			}
-			else if (image.color != Colors.BLACK)
+			else if (color != Colors.BLACK)
 			{
-				image.color = Colors.BLACK;
+				color = Colors.BLACK;
 			}
-			graphic = image;
 		}
+		
+		public function breatheIn():void
+		{
+			//trace('breathingIn');
+			breathe = new NumTween(breatheOut);
+			addTween(breathe);
+			breathe.tween(1, 1.15, 1);
+		}
+		
+		public function breatheOut():void
+		{
+			//trace('breathingOut');
+			breathe = new NumTween(breatheIn);
+			addTween(breathe);
+			breathe.tween(1.15, 1, 1);			
+		}		
 		
 		/**
 		 * Checks whether the player is in darkness, based on position of LightTail.

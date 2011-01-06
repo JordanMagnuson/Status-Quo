@@ -32,13 +32,14 @@ package
 			type = 'light_tail';
 			graphic = image;
 			image.smooth = true;
+			image.angle = 90;
 			layer = 10;
 			
 			// Initial position
 			this.x = FP.screen.width / 2;
 			this.y = FP.screen.height / 2;	
 			speed = MIN_SPEED;
-			angle = 0;
+			angle = 90;
 			//visible = false;
 			
 			// Initialize image, hitbox
@@ -53,6 +54,8 @@ package
 		{
 			if (moving)
 				rotate();
+			super.update();
+			//trace('lt angle: ' + angle);
 		}
 		
 		/**
@@ -60,7 +63,7 @@ package
 		 * and updates all enemies to match the new speed.
 		 * @param	speed
 		 */
-		public function changeRotationSpeed(speed:Number):void
+		public static function changeRotationSpeed(speed:Number):void
 		{
 			LightTail.speed = speed;
 			trace('speed: ' + speed);
@@ -75,6 +78,7 @@ package
 			angle += FP.elapsed * speed;
 			if (angle > 360)	// Full rotation
 			{
+				trace('full rotation');
 				rotations++;
 				changeRotationSpeed(speed + (SPEED_CHANGE_RATE / rotations));
 				GameWorld.enemyController.changeReleaseRate(EnemyController.releaseRate - (EnemyController.RELEASE_RATE_CHANGE / rotations));

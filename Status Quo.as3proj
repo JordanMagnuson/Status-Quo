@@ -7,7 +7,7 @@
     <movie path="bin\StatusQuo.swf" />
     <movie fps="60" />
     <movie width="640" />
-    <movie height="480" />
+    <movie height="580" />
     <movie version="10" />
     <movie background="#FFFFFF" />
   </output>

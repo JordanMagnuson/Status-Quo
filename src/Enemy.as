@@ -13,9 +13,12 @@ package
 	{
 		public static const FADE_IN_DURATION:Number = 2;
 		public static const FADE_OUT_DURATION:Number = 2;	
+		public static const DARK_COLOR:uint = Colors.BLACK;
+		public static const LIGHT_COLOR:uint = Colors.WHITE;
+		
 		public var fadeTween:ColorTween;
 		
-		public var image:Image;
+		public var image:Image = Image.createRect(8, 8, Colors.WHITE);
 		
 		// The last angle this enemy was at, relative to its rotation center;
 		// used for calculating number of rotations.
@@ -32,9 +35,9 @@ package
 			
 			// Create graphic
 			if (inDarkness())
-				image = Image.createRect(8, 8, Colors.WHITE);
+				image.color = LIGHT_COLOR;
 			else
-				image = Image.createRect(8, 8, Colors.BLACK);
+				image.color = DARK_COLOR;
 			image.alpha = 0;
 			graphic = image;
 			
@@ -59,6 +62,22 @@ package
 			updateRotations();
 			if (lastAngle > 300)
 				fadeOut();
+				
+			// Check to see if we need to update the color	
+			if (!LightTail.moving)	
+			{
+				if (inDarkness())
+				{
+					if (image.color != LIGHT_COLOR)
+					{
+						image.color = LIGHT_COLOR;
+					}
+				}
+				else if (image.color != DARK_COLOR)
+				{
+					image.color = DARK_COLOR;
+				}		
+			}
 		}
 		
 		public function updateRotations():void
@@ -112,7 +131,7 @@ package
 			var angle:Number = pointDirection(center.x, center.y, x, y);
 			if (angle < 0)
 				angle += 360;			
-			if ((LightTail.angle - angle) > 90 && (LightTail.angle - angle) < 270)
+			if (Math.abs(LightTail.angle - angle) > 88 && Math.abs(LightTail.angle - angle) < 270)
 				return true;
 			else
 				return false;

@@ -14,8 +14,8 @@ package
 	{
 		public static const INNER_RADIUS_ORIG:Number = 117;
 		public static const OUTER_RADIUS_ORIG:Number = 227;
-		public static var innerRadius:Number = 117;
-		public static var outerRadius:Number = 227;
+		public static var innerRadius:Number = INNER_RADIUS_ORIG;
+		public static var outerRadius:Number = OUTER_RADIUS_ORIG
 		
 		public static var breatheAlarm:Alarm;
 		public static var breathe:NumTween;
