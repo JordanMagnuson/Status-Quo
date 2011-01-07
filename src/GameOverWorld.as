@@ -70,7 +70,7 @@ package
 			
 			// Chinese text
 			trace(Globals.timeAlive);
-			add(new TextEntity(String(int(Globals.timeAlive)), FP.halfWidth, 118));
+			add(new TextEntity(String(int(Globals.timeAlive)), FP.halfWidth + 39, 118));
 			add(new Entity(FP.halfWidth - chLasted.width / 2, 112, chLasted));
 			if (Globals.modeOfDeath == 'absorbed')
 			{

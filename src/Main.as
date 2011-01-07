@@ -17,7 +17,7 @@ package
 			//FP.screen.smoothing = false;
 			//FP.console.watch('col', 'row');			
 			
-			FP.world = new GameOverWorld;
+			FP.world = new GameWorld;
 			Mouse.hide();
 		}
 	}

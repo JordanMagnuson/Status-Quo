@@ -8,7 +8,7 @@ package
 	 */
 	public class TimingController extends Entity
 	{
-		public const START_THE_ACTION_TIME:Number = 3;
+		public const START_THE_ACTION_TIME:Number = 6;
 		public const PAUSE_CHINA_BREATHING_TIME:Number = 99 + START_THE_ACTION_TIME; //99
 		public const START_ALL_BREATHING_TIME:Number = 107 + START_THE_ACTION_TIME;  //107
 		

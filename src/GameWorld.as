@@ -26,9 +26,15 @@ package
 		{
 			gameOver = false;
 			add(china = new China);
+			China.radius = China.RADIUS_ORIG;
 			add(safeZone = new SafeZone);
 			add(new LightTail);
+			LightTail.moving = false;
+			LightTail.speed = LightTail.MIN_SPEED;
+			LightTail.angle = 90;
 			add(player = new Player);
+			Player.frozen = true;
+			Player.canMove = true;
 			add(enemyController = new EnemyController);
 			add(new SoundController);
 			add(timer = new TimeCounter);
