@@ -15,3 +15,20 @@ jordan@gametrekking.com .
 
 Note: The FlashPunk library is covered by its own license, which 
 can be found in this project's flashpunk directory.
+
+------------------------------------------------------------------------
+CREDITS
+------------------------------------------------------------------------
+
+Special thanks to everyone who helped me test and refine this game, 
+including:
+
+Stephen "increpare" Lavelle
+Marianne Yahyaoui
+Nathan Cooper
+Scott Jacobson
+Brendan Magnuson
+Florent Maurin
+Duncan Geere
+Karith Magnuson
+And my lovely wife Marisa
