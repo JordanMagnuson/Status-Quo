@@ -14,7 +14,7 @@ particular with it, I'd love to hear about it! Send an email to
 jordan@gametrekking.com .
 
 Note: The FlashPunk library is covered by its own license, which 
-can be found in this project's flashpunk directory.
+can be found in the flashpunk directory.
 
 ------------------------------------------------------------------------
 CREDITS
@@ -29,6 +29,9 @@ Nathan Cooper
 Scott Jacobson
 Brendan Magnuson
 Florent Maurin
+Elspeth Fisher
+Simon Braunstein
 Duncan Geere
 Karith Magnuson
+Jed Davis
 And my lovely wife Marisa
