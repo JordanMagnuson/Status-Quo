@@ -27,11 +27,25 @@ package
 		// Number of rotations this enemy has made since inception.
 		public var rotations:Number = 0;
 		
-		public function Enemy(x:Number, y:Number, speed:Number) 
+		public function Enemy(x:Number = 0, y:Number = 0, speed:Number = 0) 
 		{
 			super(x, y, speed);
+			reset(x, y, speed);		
+		}
+		
+		override public function added():void
+		{
+			super.added();
+			fadeIn();
+		}		
+		
+		public function reset(x:Number, y:Number, speed:Number):void
+		{
 			type = 'enemy';
-			layer = -100;		
+			this.x = x;
+			this.y = y;
+			this.speed = speed;
+			layer = -100;
 			
 			// Create graphic
 			if (inDarkness())
@@ -48,12 +62,6 @@ package
 			image.y = -image.originY - 1;		
 			setHitbox(image.width - 2, image.height - 2, image.originX, image.originY);				
 		}
-		
-		override public function added():void
-		{
-			super.added();
-			fadeIn();
-		}		
 		
 		override public function update():void
 		{
@@ -119,6 +127,10 @@ package
 		
 		public function destroy():void
 		{
+			//clearTweens();
+			//removeTween(fadeTween);
+			//removeTween(motionTween);
+			//FP.world.recycle(this);
 			FP.world.remove(this);			
 		}
 		

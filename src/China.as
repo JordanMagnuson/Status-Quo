@@ -94,7 +94,7 @@ package
 		public function breatheIn():void
 		{
 			breathingIn = true;
-			trace('breathingIn');
+			//trace('breathingIn');
 			breathe = new NumTween(breatheOut);
 			addTween(breathe);
 			breathe.tween(1, 1.2, 3);
@@ -103,7 +103,7 @@ package
 		public function breatheOut():void
 		{
 			breathingIn = false;
-			trace('breathingOut');
+			//trace('breathingOut');
 			breathe = new NumTween(breatheIn);
 			addTween(breathe);
 			breathe.tween(1.2, 1, 3);			

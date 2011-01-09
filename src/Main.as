@@ -13,7 +13,7 @@ package
 			FP.screen.color = Colors.BLACK;
 			
 			// Debug console
-			//FP.console.enable();
+			FP.console.enable();
 			//FP.screen.smoothing = false;
 			//FP.console.watch('col', 'row');			
 			

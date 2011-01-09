@@ -28,7 +28,7 @@ package
 		{
 			//releaseRate = Math.max(releaseRate / RELEASE_RATE_CHANGE, MIN_RLEASE_RATE);
 			releaseRate = newRate;
-			trace('release rate: ' + EnemyController.releaseRate);
+			trace('new release rate: ' + EnemyController.releaseRate);
 		}
 		
 		public static function releaseEnemy():void
@@ -49,6 +49,9 @@ package
 			
 			// Set the speed equal to lighttail speed (v = angular velocity in radians * r)
 			var speed:Number = (LightTail.speed * Math.PI / 180) * r;
+			
+			//var e:Enemy = FP.world.create(Enemy, true) as Enemy;
+			//e.reset(ex, ey, speed);
 			
 			FP.world.add(new Enemy(ex, ey, speed));
 		}

@@ -80,6 +80,7 @@ package
 			{
 				trace('full rotation');
 				rotations++;
+				trace('rotations: ' + rotations);
 				changeRotationSpeed(speed + (SPEED_CHANGE_RATE / rotations));
 				GameWorld.enemyController.changeReleaseRate(EnemyController.releaseRate - (EnemyController.RELEASE_RATE_CHANGE / rotations));
 				angle = angle - 360;
