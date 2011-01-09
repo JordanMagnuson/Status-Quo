@@ -16,7 +16,7 @@ package
 		
 		// Music
 		[Embed(source = '../assets/Sounds.swf', symbol = 'music')] private static const MUSIC:Class;
-		//[Embed(source = '../assets/Sabrepulse - Braver - trimmed_to_silence.mp3')] private static const MUSIC:Class;
+		//[Embed(source='../assets/Sabrepulse - Braver - trimmed02 - 90 start.mp3')] private static const MUSIC:Class;
 		public static var music:Sfx = new Sfx(MUSIC);
 		
 		// lazer (destroyed)
