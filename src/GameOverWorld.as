@@ -32,7 +32,7 @@ package
 		[Embed(source = '../assets/ch_press_space.png')] private const CH_PRESS:Class;
 		public var chPress:Image = new Image(CH_PRESS);				
 		
-		public var learnMoreURL:String = "http://en.wikipedia.org/wiki/Republic_of_China";
+		public var learnMoreURL:String = "http://www.gametrekking.com/about-taiwan";
 		
 		public function GameOverWorld() 
 		{

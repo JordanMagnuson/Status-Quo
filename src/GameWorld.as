@@ -28,6 +28,7 @@ package
 			add(china = new China);
 			China.radius = China.RADIUS_ORIG;
 			add(safeZone = new SafeZone);
+			SafeZone.breathing = false;
 			SafeZone.innerRadius = SafeZone.INNER_RADIUS_ORIG;
 			SafeZone.outerRadius = SafeZone.OUTER_RADIUS_ORIG;
 			add(new LightTail);
