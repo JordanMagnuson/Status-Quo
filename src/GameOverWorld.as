@@ -70,16 +70,16 @@ package
 			
 			// Chinese text
 			trace(Globals.timeAlive);
-			add(new TextEntity(String(int(Globals.timeAlive)), FP.halfWidth + 39, 118));
-			add(new Entity(FP.halfWidth - chLasted.width / 2, 112, chLasted));
 			if (Globals.modeOfDeath == 'absorbed')
 			{
-				add(new Entity(FP.halfWidth - chAbsorbed.width / 2, 140, chAbsorbed));
+				add(new Entity(FP.halfWidth - chAbsorbed.width / 2, 112, chAbsorbed));
 			}
 			else
 			{
-				add(new Entity(FP.halfWidth - chDestroyed.width / 2, 140, chDestroyed));
+				add(new Entity(FP.halfWidth - chDestroyed.width / 2, 112, chDestroyed));
 			}
+			add(new TextEntity(String(int(Globals.timeAlive)), FP.halfWidth + 24, 148));
+			add(new Entity(FP.halfWidth - chLasted.width / 2, 140, chLasted));			
 			add(new Entity(FP.halfWidth - chPress.width / 2, 433, chPress));
 		}
 		
